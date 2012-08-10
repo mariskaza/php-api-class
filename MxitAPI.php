@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MXit API PHP Wrapper - version 1.3.0
+ * MXit API PHP Wrapper - version 1.3.1
  *
  * Written by: Ashley Kleynhans <ashley@mxit.com>
  *
@@ -32,15 +32,19 @@ if (!function_exists('json_decode')) {
   throw new Exception('The Mxit PHP class is unable to find the JSON PHP extension.');
 }
 
-function base64url_decode($base64url) {
-    $base64 = strtr($base64url, '-_', '+/');
-    $plainText = base64_decode($base64);
-    return ($plainText);
+if (!function_exists('base64url_decode')) {
+    function base64url_decode($base64url) {
+        $base64 = strtr($base64url, '-_', '+/');
+        $plainText = base64_decode($base64);
+        return ($plainText);
+    }
 }
 
-function is_json($json) {
-    json_decode($json);
-    return (json_last_error() == JSON_ERROR_NONE);
+if (!function_exists('is_json')) {
+    function is_json($json) {
+        json_decode($json);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
 }
 
 class MxitAPI {
@@ -62,7 +66,7 @@ class MxitAPI {
     public $error;
 
     public function __construct($key, $secret) {
-        $this->_version = '1.3.0';
+        $this->_version = '1.3.1';
         $this->_base_outh_url = 'https://auth.mxit.com/';
         $this->_base_api_url = 'http://api.mxit.com/';
 
