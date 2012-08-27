@@ -35,10 +35,8 @@ Where the value of code (f00df00df00df00df00df00df00df00d in this example) is us
 NOTE: The access token is only valid for 3600 seconds.
 
 #### *Parameters*
-*redirect_uri: string
-
-*scope*: string
-
+*redirect_uri*: string  
+*scope*: string  
 *state*: string (optional)
 
 #### *Return Value*
@@ -60,8 +58,7 @@ This method processes the code returned from request_access() and obtains an OAu
 
 #### *Parameters*
 
-*code*: string
-
+*code*: string  
 *redirect_uri*: string
 
 #### *Return Value*
@@ -218,12 +215,9 @@ Gets the basic profile information for the userid
 Send a message.
 
 #### *Parameters*
-*From*: string
-
-*To*: string
-
-*Message*: string
-
+*From*: string  
+*To*: string  
+*Message*: string  
 *Contains Markup*: string
 
 #### *Return Value*
@@ -312,10 +306,8 @@ Subscribes the userid contained in the access token, to the service or sends an 
 Gets the list of contacts for the userid contained in the access token.
 
 #### *Parameters*
-*ContactTypes*: string (optional)
-
-*Skip*: integer (optional)
-
+*ContactTypes*: string (optional)  
+*Skip*: integer (optional)  
 *Count*: integer (optional)
 
 #### *Return Value*
@@ -376,7 +368,8 @@ Set the status message for the userid contained in the access token.
 Upload an avatar image for the userid contained in the access token.
 
 #### *Parameters*
-*Base64 Encoded Image*: string
+*Image*: binary data  
+*Mime Type*: string
 
 #### *Return Value*
 *None*
@@ -389,8 +382,7 @@ Upload an avatar image for the userid contained in the access token.
 
     $api->get_user_token($_GET['code'], 'http://www.example.com');
     $avatar = file_get_contents('/Users/ashley/Pictures/goblin.jpg');
-    $avatar = base64_encode($avatar);
-    $api->set_avatar($avatar);
+    $api->set_avatar($avatar, 'image/jpeg');
 
 ## delete_avatar
 #### *Description*
@@ -438,10 +430,8 @@ List gallery folders for the userid contained in the access token.
 List the items in a specific gallery folder for the userid contained in the access token.
 
 #### *Parameters*
-*Folder*: string
-
-*Skip*: integer (optional)
-
+*Folder*: string  
+*Skip*: integer (optional)  
 *Count*: integer (optional)
 
 #### *Return Value*
@@ -454,7 +444,7 @@ List the items in a specific gallery folder for the userid contained in the acce
 #### Once MXit redirects to your application
 
     $api->get_user_token($_GET['code'], 'http://www.example.com');
-    $folders = $api->list_gallery_items('Default');
+    $items = $api->list_gallery_items('Default');
 
 ## create_gallery_folder
 #### *Description*
@@ -482,8 +472,7 @@ Create a new gallery folder for the userid contained in the access token.
 Rename a new gallery folder for the userid contained in the access token.
 
 #### *Parameters*
-*Source*: string
-
+*Source*: string  
 *Destination*: string
 
 #### *Return Value*
@@ -545,13 +534,10 @@ Download an image from a gallery folder for the userid contained in the access t
 Upload an image to a gallery folder for the userid contained in the access token.
 
 #### *Parameters*
-*Folder*: string
-
-*File Name*: string
-
-*Mime Type*: string
-
-*Base64 Encoded Image*: string
+*Folder*: string  
+*File Name*: string  
+*Mime Type*: string  
+*Image*: binary data
 
 #### *Return Value*
 *None*
@@ -564,8 +550,7 @@ Upload an image to a gallery folder for the userid contained in the access token
 
     $api->get_user_token($_GET['code'], 'http://www.example.com');
     $image = file_get_contents('/Users/ashley/Pictures/profile.jpg');
-    $base64_encoded_content = base64_encode($image);
-    $api->upload_gallery_image('Default', 'profile.jpg', 'image/jpeg', $base64_encoded_content);
+    $api->upload_gallery_image('Default', 'profile.jpg', 'image/jpeg', $image);
 
 # rename_gallery_image
 #### *Description*
@@ -573,8 +558,7 @@ Upload an image to a gallery folder for the userid contained in the access token
 Rename an image in a gallery folder for the userid contained in the access token.
 
 #### *Parameters*
-*File Id*: string
-
+*File Id*: string  
 *Destination*: string
 
 #### *Return Value*
@@ -608,3 +592,28 @@ Delete an image from a gallery folder for the userid contained in the access tok
 
     $api->get_user_token($_GET['code'], 'http://www.example.com');
     $api->delete_gallery_image('f00df00d-f00d-f00d-f00d-f00df00df00d');
+    
+# send_file
+#### *Description*
+
+Send a file to a user
+
+#### *Parameters*
+*User Id*: string  
+*File Name*: string  
+*Mime Type*: string  
+*Data*: binary data
+
+#### *Return Value*
+*None*
+
+#### *Example*
+
+    $api->request_access('http://www.example.com', 'content/send');
+
+#### Once MXit redirects to your application
+
+    $api->get_user_token($_GET['code'], 'http://www.example.com');
+    $image = file_get_contents('/Users/ashley/Pictures/profile.jpg');
+    $api->send_file('m123456789, 'profile.jpg', 'image/jpeg', $image);
+    
